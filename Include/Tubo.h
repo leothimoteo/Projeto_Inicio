@@ -33,18 +33,21 @@ public:
 //                       CONSTRUTORES E DESTRUTORA
 //============================================================================== 
     
-    Tubo() : esp (0), diametro (0), altura (0), centro () {};
+    Tubo() : esp (0), diametro (0), comprimento (0), ptr () {};
     
     Tubo(const Tubo& _orig): esp (_orig.esp), diametro (_orig.diametro),
-            altura(_orig.altura), centro (_orig.centro) {};
+            comprimento(_orig.comprimento), ptr (_orig.ptr) {};
     
     Tubo (const Real _esp, const Real _dia, const Real _alt, 
                 const Ponto2D _centro): 
-         esp (_esp), diametro (_dia), altura (_alt), centro (_centro) {};
+         esp (_esp), diametro (_dia), comprimento (_alt), ptr (_centro) {};
             
     Tubo (const Real _esp, const Real _dia, const Real _alt,
        const Real _x, const Real _y) : 
-           esp (_esp), diametro (_dia), altura (_alt), centro (_x,_y) {};
+           esp (_esp), diametro (_dia), comprimento (_alt), ptr (_x,_y) {};
+    
+    Tubo (const Real _esp, const Real _dia, const Real _alt) :
+    esp (_esp), diametro (_dia), comprimento (_alt), ptr () {};
             
     virtual ~Tubo() {};
     
@@ -53,10 +56,10 @@ public:
 //                              FUNÇÕES INLINE
 //============================================================================== 
     
-    inline  const Real ESP() const {return esp;};   //exibir apenas espessura
-    inline  const Ponto2D CTR() const {return centro;};   //exibir apenas centro  
-    inline  const Real ALT() const {return altura;};   //exibir apenas altura
+    inline  const Real ESP() const {return esp;};   //exibir apenas espessura  
+    inline  const Real CMP() const {return comprimento;};   //exibir apenas altura
     inline  const Real DMT() const {return diametro;}; //exibir apenas diâmetro
+    inline  const Ponto2D PTR() const {return ptr;};   //exibir apenas centro
     
 //==============================================================================
 //                        SOBRECARGA DE OPERADORES
@@ -70,8 +73,8 @@ public:
 //==============================================================================    
     
 private:
-    Real     esp, altura, diametro; 
-    Ponto2D  centro;
+    Real     esp, comprimento, diametro; //diâmetro interno 
+    Ponto2D  ptr;
 
 };
 

@@ -24,46 +24,43 @@
 //******************************************************************************
 //                      FUNÇÃO CONTINUIDADE DE TUBOS
 //******************************************************************************   
-    int Furo_Tubo (const Geometria, const Tubo);
+    const bool Furo_Tubo (const Geometria, const Tubo);
     const bool Conti (const Tubo, const Tubo);
     
 int main() {
     
     Geometria g1(100,100); //variável que contêm o valor e dimensão do poço
-    Tubo t2, t6;              //variável que vai assumir os valores do arquivo externo
-    Vector vetor_Tubos, tubos;    //declaração do vetor tubos, que será compostos por elementos do tipo tubo
+    Tubo t2, t6 (1,2,3,4,4);              //variável que vai assumir os valores do arquivo externo
+    Vector vetor_Tubos;    //declaração do vetor tubos, que será compostos por elementos do tipo tubo
     
     std :: ifstream input("tubos.txt"); //PRECISA EXISTIR
     if (!input){
         std :: cerr << "Arquivo inexistente" << std :: endl;
         abort ();
     }
+    
     for (int i=0; !input.eof(); i++){
        input >> t2;
-        if (Furo_Tubo(g1, t2)==1 || Furo_Tubo(g1, t2) ==2){
-         vetor_Tubos.push_back(t2); // neste ponto estou inicializando o tamanho o meu vetor
+        if (Furo_Tubo(g1, t2)){
+        vetor_Tubos.push_back(t2); // neste ponto estou inicializando o tamanho o meu vetor
         } 
     }
     input.close ();
     
-    //std:: cout << vetor_Tubos.size();
-    std:: cout << Conti (vetor_Tubos[0], vetor_Tubos[1]);
-    for (int i=0;i<vetor_Tubos.size();i++){ 
-        if (vetor_Tubos[i].ALT()<= g1.PTR().Y() && 
-            vetor_Tubos[i].DMT()>t6.DMT())
-        {
-            t6= vetor_Tubos[i];
-        } 
-    }
-    tubos.push_back(t6);
-    t6;
-    //std:: cout << tubos.size();
-   
-    for (int i=0;i<vetor_Tubos.size();i++){ 
-        for (int n=0;n<vetor_Tubos.size();n++){ 
-            
-            
-    }
+   // std:: cout << vetor_Tubos.size();
+    
+//    for (int i=0;i<vetor_Tubos.size();i++){ 
+//        if (vetor_Tubos[i].CMP()<= g1.PTR().Y() && 
+//            vetor_Tubos[i].DMT()>t6.DMT())
+//        {
+//            t6= vetor_Tubos[i];
+//        } 
+//    }
+//    tubos.push_back(t6);
+//    t6;
+    
+    for (int i=0;i<vetor_Tubos.size();i++){
+        std:: cout << vetor_Tubos[i] << "\n";
     }
 
     return 0;
@@ -74,25 +71,11 @@ int main() {
 
 
 const bool Conti (const Tubo _t1, const Tubo _t2){
-    return _t1.ALT() + _t1.ALT() == _t2.ALT() && 
+    return _t1.CMP() + _t1.CMP() == _t2.CMP() && 
            _t1.DMT() > _t2.DMT();
     
 }
-int Furo_Tubo (const Geometria _geo, const Tubo _tubo){
-    
-    if(_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
-       _geo.ALT() >= _tubo.ALT() &&
-       _geo.PTR().X() <= _tubo.CTR().X() && _tubo.CTR().X() <= _geo.PTR().X()
-            +_geo.DMT() &&
-       _geo.ALT() <= _tubo.CTR().Y() && _tubo.CTR().Y() <= _geo.ALT()+_geo.ALT())
-    {
-        return 1;
-    }
-    else if ((_geo.DMT()>= _tubo.DMT()+ (2*_tubo.ESP()) &&
-       _geo.ALT()+_geo.ALT() >= _tubo.CTR().Y() + _tubo.ALT() &&
-       _geo.PTR().X() <= _tubo.CTR().X() && _tubo.CTR().X() <= _geo.PTR().X()+
-            _geo.DMT()))
-    {
-        return 2;
-    }
+const bool Furo_Tubo (const Geometria _geo, const Tubo _tubo){
+    return _geo.DMT() >= _tubo.DMT()+ (2*_tubo.ESP())  &&
+           _geo.ALT() > _tubo.CMP();
 }
